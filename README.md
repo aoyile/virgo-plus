@@ -2,10 +2,10 @@
 ## virgo-plus
 
 My modification of virgo (<https://github.com/henkman/virgo>) for windows virtual workspaces:
-  + modify shotcut keys according to Linux workspaces management.
-  + enable shotcut keys for go/move/move-and-go to previous/next workspace.
+  + modify shortcut keys according to Linux workspaces management.
+  + enable shortcut keys for go/move/move-and-go to previous/next workspace.
 
-| Shotcut Key            | Function                                          |
+| Shortcut Key           | Function                                          |
 | ---------------------- | ------------------------------------------------- |
 | Ctrl+Alt+1/2/3/4       | go to workspace 1/2/3/4                           |
 | Ctrl+Alt+Left          | go to previous workspace                          |
