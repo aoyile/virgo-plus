@@ -245,10 +245,9 @@ unsigned VIRGO_KEY_ID_MOVE_GO_PREV = 0;
 unsigned VIRGO_KEY_ID_QUIT         = 0;
 unsigned VIRGO_KEY_ID_TOGGLE       = 0;
 
-void virgo_init(Virgo *v)
+void _virgo_enable_hotkey(Virgo *v)
 {
   unsigned i;
-  v->handle_hotkeys = 1;
   for (i = 0; i < VIRGO_NUM_DESKTOPS; i++) {
     _virgo_register_hotkey(i * VIRGO_KEY_ID_BASE, VIRGO_MOD_GO, i + 1 + '0');
     _virgo_register_hotkey(i * VIRGO_KEY_ID_BASE + 1, VIRGO_MOD_MOVE, i + 1 + '0');
@@ -269,6 +268,29 @@ void virgo_init(Virgo *v)
   _virgo_register_hotkey(VIRGO_KEY_ID_MOVE_PREV, VIRGO_MOD_MOVE, VK_LEFT);
   _virgo_register_hotkey(VIRGO_KEY_ID_MOVE_GO_NEXT, VIRGO_MOD_MOVE_GO, VK_RIGHT);
   _virgo_register_hotkey(VIRGO_KEY_ID_MOVE_GO_PREV, VIRGO_MOD_MOVE_GO, VK_LEFT);
+}
+
+void _virgo_disable_hotkey(Virgo *v)
+{
+  unsigned i;
+  for (i = 0; i < VIRGO_NUM_DESKTOPS; i++) {
+    UnregisterHotKey(NULL, i * VIRGO_KEY_ID_BASE);
+    UnregisterHotKey(NULL, i * VIRGO_KEY_ID_BASE + 1);
+    UnregisterHotKey(NULL, i * VIRGO_KEY_ID_BASE + 2);
+  }
+  UnregisterHotKey(NULL, VIRGO_KEY_ID_GO_NEXT     );
+  UnregisterHotKey(NULL, VIRGO_KEY_ID_GO_PREV     );
+  UnregisterHotKey(NULL, VIRGO_KEY_ID_MOVE_NEXT   );
+  UnregisterHotKey(NULL, VIRGO_KEY_ID_MOVE_PREV   );
+  UnregisterHotKey(NULL, VIRGO_KEY_ID_MOVE_GO_NEXT);
+  UnregisterHotKey(NULL, VIRGO_KEY_ID_MOVE_GO_PREV);
+}
+
+void virgo_init(Virgo *v)
+{
+  unsigned i;
+  v->handle_hotkeys = 1;
+  _virgo_enable_hotkey(v);
   _virgo_register_hotkey(VIRGO_KEY_ID_QUIT, MOD_ALT | MOD_CONTROL | MOD_SHIFT | MOD_NOREPEAT, 'Q');
   _virgo_register_hotkey(VIRGO_KEY_ID_TOGGLE, MOD_ALT | MOD_CONTROL | MOD_SHIFT | MOD_NOREPEAT, 'S');
   _virgo_trayicon_init(&v->trayicon);
@@ -289,15 +311,9 @@ void virgo_toggle_hotkeys(Virgo *v)
   unsigned i;
   v->handle_hotkeys = !v->handle_hotkeys;
   if (v->handle_hotkeys) {
-    for (i = 0; i < VIRGO_NUM_DESKTOPS; i++) {
-      _virgo_register_hotkey(i * 2, MOD_ALT | MOD_NOREPEAT, i + 1 + '0');
-      _virgo_register_hotkey(i * 2 + 1, MOD_CONTROL | MOD_NOREPEAT, i + 1 + '0');
-    }
+    _virgo_enable_hotkey(v);
   } else {
-    for (i = 0; i < VIRGO_NUM_DESKTOPS; i++) {
-      UnregisterHotKey(NULL, i * 2);
-      UnregisterHotKey(NULL, i * 2 + 1);
-    }
+    _virgo_disable_hotkey(v);
   }
 }
 
