@@ -1,3 +1,9 @@
+.qmake.stash
+Makefile
+Makefile.Debug
+Makefile.Release
+*.user
+
 # Prerequisites
 *.d
 

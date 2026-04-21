@@ -20,9 +20,12 @@
 #define MOD_NOREPEAT 0x4000
 #endif
 
-#define VIRGO_MOD_GO      (MOD_CONTROL | MOD_ALT | MOD_NOREPEAT)
-#define VIRGO_MOD_MOVE    (MOD_SHIFT | MOD_CONTROL | MOD_NOREPEAT)
-#define VIRGO_MOD_MOVE_GO (MOD_SHIFT | MOD_ALT | MOD_CONTROL | MOD_NOREPEAT)
+#define VIRGO_MOD_GO_ID      (MOD_ALT     | MOD_NOREPEAT )
+#define VIRGO_MOD_MOVE_ID    (MOD_CONTROL | MOD_NOREPEAT )
+#define VIRGO_MOD_MOVE_GO_ID (MOD_SHIFT   | MOD_CONTROL | MOD_ALT | MOD_NOREPEAT)
+#define VIRGO_MOD_GO         (MOD_CONTROL | MOD_ALT     | MOD_NOREPEAT)
+#define VIRGO_MOD_MOVE       (MOD_SHIFT   | MOD_ALT     | MOD_NOREPEAT)
+#define VIRGO_MOD_MOVE_GO    (MOD_SHIFT   | MOD_CONTROL | MOD_ALT | MOD_CONTROL | MOD_NOREPEAT)
 
 #define VIRGO_KEY_ID_BASE 3
 
@@ -249,9 +252,9 @@ void _virgo_enable_hotkey(Virgo *v)
 {
   unsigned i;
   for (i = 0; i < VIRGO_NUM_DESKTOPS; i++) {
-    _virgo_register_hotkey(i * VIRGO_KEY_ID_BASE, VIRGO_MOD_GO, i + 1 + '0');
-    _virgo_register_hotkey(i * VIRGO_KEY_ID_BASE + 1, VIRGO_MOD_MOVE, i + 1 + '0');
-    _virgo_register_hotkey(i * VIRGO_KEY_ID_BASE + 2, VIRGO_MOD_MOVE_GO, i + 1 + '0');
+    _virgo_register_hotkey(i * VIRGO_KEY_ID_BASE,     VIRGO_MOD_GO_ID,      i + 1 + '0');
+    _virgo_register_hotkey(i * VIRGO_KEY_ID_BASE + 1, VIRGO_MOD_MOVE_ID,    i + 1 + '0');
+    _virgo_register_hotkey(i * VIRGO_KEY_ID_BASE + 2, VIRGO_MOD_MOVE_GO_ID, i + 1 + '0');
   }
   VIRGO_KEY_ID_ADD          = i * VIRGO_KEY_ID_BASE;
   VIRGO_KEY_ID_GO_NEXT      = VIRGO_KEY_ID_ADD;
